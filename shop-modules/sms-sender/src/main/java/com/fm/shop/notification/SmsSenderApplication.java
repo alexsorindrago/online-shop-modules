@@ -1,4 +1,4 @@
-package com.fm.sms.sender;
+package com.fm.shop.notification;
 
 public class SmsSenderApplication {
 
