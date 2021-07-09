@@ -2,48 +2,18 @@ package com.fm.shop.notification;
 
 public class SmsResponse {
 
-    private String type;
-    private Double code;
-    private String error;
-    private String detail;
+    private Data data;
 
-    public SmsResponse(String type, Double code, String error, String detail) {
-        this.type = type;
-        this.code = code;
-        this.error = error;
-        this.detail = detail;
+    public SmsResponse(Data data) {
+        this.data = data;
     }
 
-    public String getType() {
-        return type;
+    public Data getData() {
+        return data;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Double getCode() {
-        return code;
-    }
-
-    public void setCode(Double code) {
-        this.code = code;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setData(Data data) {
+        this.data = data;
     }
 
     static class Data {
