@@ -48,4 +48,14 @@ public class SmsRequest {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "SmsRequest{" +
+                "appId='" + appId + '\'' +
+                ", appToken='" + appToken + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

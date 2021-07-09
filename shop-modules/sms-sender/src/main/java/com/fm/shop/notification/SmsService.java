@@ -1,5 +1,8 @@
 package com.fm.shop.notification;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -17,31 +20,51 @@ public class SmsService {
             .connectTimeout(Duration.ofSeconds(10))
             .build();
 
-    void sendSms() {
+    //TODO: store in YML, read from YML and use in send method
+    private final String appId = "21844";
+    private final String appToken = "EGqd40WStovFNcgAREqIbNjTz4GlEklvUGDjues3zXFj0Zj0ct";
 
-        //get credentials - hardcode
 
-        // send a request - post to api
-        SmsRequest newRequest = new SmsRequest("appIdString", "appToken", "40723698005", "works?");
-        //send request to https://portal.bulkgate.com/api/1.0/simple/transactional "
-        String json = ""; // TODO: convert request into this json use Jackson Object Mapper
+    public SmsResponse sendSms(String phoneNumber, String message) {
+        SmsResponse smsResponse = new SmsResponse();
+
+        SmsRequest smsRequest = new SmsRequest(appId, appToken, phoneNumber, message);
+
+        // convert request into json use Jackson Object Mapper
+        ObjectMapper mapper = new ObjectMapper();
+
+        String json = null;
+
+        try {
+            json = mapper.writeValueAsString(smsRequest);
+            System.out.println(json); //check not null json
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(json))
-                .uri(URI.create(MOCK_URL))
+                .uri(URI.create(URL))
                 .header("Content-Type", "application/json")
                 .header("Cache-Control", "no-cache")
                 .build();
 
         // get a response
+        HttpResponse<String> response;
         try {
-            httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            //TODO: convert json into java Object (smsResponse) with jacson
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            // got status codes from documentation, verify if response is successful
+            if (response.statusCode() == 200) {
+                return mapper.readValue(response.body(), SmsResponse.class);
+            } else {
+                System.out.println(response.body());
+            }
+
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
+        return smsResponse;
     }
 
 }
