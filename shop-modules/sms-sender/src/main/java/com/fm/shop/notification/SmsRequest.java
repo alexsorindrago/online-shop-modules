@@ -1,10 +1,16 @@
 package com.fm.shop.notification;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class SmsRequest {
 
+    @JsonProperty("application_id")
     private String appId;
+    @JsonProperty("application_token")
     private String appToken;
+    @JsonProperty("number")
     private String phoneNumber;
+    @JsonProperty("text")
     private String message;
 
     public SmsRequest() {

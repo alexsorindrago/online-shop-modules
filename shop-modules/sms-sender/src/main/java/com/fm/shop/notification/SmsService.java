@@ -26,7 +26,6 @@ public class SmsService {
 
 
     public SmsResponse sendSms(String phoneNumber, String message) {
-        SmsResponse smsResponse = new SmsResponse();
 
         SmsRequest smsRequest = new SmsRequest(appId, appToken, phoneNumber, message);
 
@@ -53,18 +52,22 @@ public class SmsService {
         HttpResponse<String> response;
         try {
             response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            // got status codes from documentation, verify if response is successful
+            System.out.println(response); // check send and status code
+            // status codes from documentation, verify if response is successful
             if (response.statusCode() == 200) {
-                return mapper.readValue(response.body(), SmsResponse.class);
+                SmsResponse smsResponse;
+                smsResponse = mapper.readValue(response.body(), SmsResponse.class);
+                System.out.println(smsResponse);
             } else {
                 System.out.println(response.body());
+                return null;
             }
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
-        return smsResponse;
+        return null;
     }
 
 }

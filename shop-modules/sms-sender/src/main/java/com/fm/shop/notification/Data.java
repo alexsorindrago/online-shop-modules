@@ -1,14 +1,18 @@
 package com.fm.shop.notification;
 
-public class Data {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Data extends SmsResponse {
 
     private String status;
+    @JsonProperty("sms_id")
     private String smsId;
     private Double price;
     private Double credit;
     private String number;
 
-//    public Data(){}
+    public Data() {
+    }
 
     public Data(String status, String smsId, Double price, Double credit, String number) {
         this.status = status;
