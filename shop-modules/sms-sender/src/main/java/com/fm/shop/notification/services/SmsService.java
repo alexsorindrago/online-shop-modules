@@ -1,7 +1,10 @@
-package com.fm.shop.notification;
+package com.fm.shop.notification.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fm.shop.notification.requests.SmsRequest;
+import com.fm.shop.notification.responses.SmsResponse;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,8 +34,9 @@ public class SmsService {
 
         // convert request into json use Jackson Object Mapper
         ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
-        String json = null;
+        String json = "";
 
         try {
             json = mapper.writeValueAsString(smsRequest);
@@ -41,23 +45,24 @@ public class SmsService {
             e.printStackTrace();
         }
 
+        // build the request
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(json))
-                .uri(URI.create(URL))
+                .uri(URI.create(MOCK_URL))
                 .header("Content-Type", "application/json")
                 .header("Cache-Control", "no-cache")
                 .build();
 
-        // get a response
-        HttpResponse<String> response;
+        // send request and get a response
+        HttpResponse<String> response = null;
         try {
             response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response); // check send and status code
+
             // status codes from documentation, verify if response is successful
             if (response.statusCode() == 200) {
-                SmsResponse smsResponse;
-                smsResponse = mapper.readValue(response.body(), SmsResponse.class);
-                System.out.println(smsResponse);
+                System.out.println(response.body());
+                return mapper.readValue(response.body(), SmsResponse.class);
             } else {
                 System.out.println(response.body());
                 return null;

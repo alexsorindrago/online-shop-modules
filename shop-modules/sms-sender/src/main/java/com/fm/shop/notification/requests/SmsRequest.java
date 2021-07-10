@@ -1,4 +1,4 @@
-package com.fm.shop.notification;
+package com.fm.shop.notification.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -53,15 +53,5 @@ public class SmsRequest {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return "SmsRequest{" +
-                "appId='" + appId + '\'' +
-                ", appToken='" + appToken + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", message='" + message + '\'' +
-                '}';
     }
 }

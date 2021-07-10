@@ -1,5 +1,7 @@
 package com.fm.shop.notification;
 
+import com.fm.shop.notification.services.SmsService;
+
 public class SmsSenderApplication {
 
     public static void main(String[] args) {

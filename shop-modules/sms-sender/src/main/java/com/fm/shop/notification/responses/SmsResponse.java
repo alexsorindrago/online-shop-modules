@@ -1,11 +1,11 @@
-package com.fm.shop.notification;
+package com.fm.shop.notification.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SmsResponse {
 
-    private Data data;
+    public Data data;
 
     public SmsResponse() {
     }
@@ -20,13 +20,6 @@ public class SmsResponse {
 
     public void setData(Data data) {
         this.data = data;
-    }
-
-    @Override
-    public String toString() {
-        return "SmsResponse{" +
-                "data=" + data +
-                '}';
     }
 
 }

@@ -1,25 +1,25 @@
-package com.fm.shop.notification;
+package com.fm.shop.notification.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Data extends SmsResponse {
-
+public class Data {
     private String status;
     @JsonProperty("sms_id")
     private String smsId;
     private Double price;
     private Double credit;
-    private String number;
+    @JsonProperty("number")
+    private String phoneNumber;
 
     public Data() {
     }
 
-    public Data(String status, String smsId, Double price, Double credit, String number) {
+    public Data(String status, String smsId, Double price, Double credit, String phoneNumber) {
         this.status = status;
         this.smsId = smsId;
         this.price = price;
         this.credit = credit;
-        this.number = number;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getStatus() {
@@ -54,23 +54,11 @@ public class Data extends SmsResponse {
         this.credit = credit;
     }
 
-    public String getNumber() {
-        return number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    @Override
-    public String toString() {
-        return "Data{" +
-                "status='" + status + '\'' +
-                ", smsId='" + smsId + '\'' +
-                ", price=" + price +
-                ", credit=" + credit +
-                ", number='" + number + '\'' +
-                '}';
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
-
