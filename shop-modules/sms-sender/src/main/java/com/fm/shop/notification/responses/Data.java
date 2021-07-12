@@ -1,7 +1,9 @@
 package com.fm.shop.notification.responses;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Data {
     private String status;
     @JsonProperty("sms_id")

@@ -3,6 +3,7 @@ package com.fm.shop.notification.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fm.shop.notification.logins.Credentials;
 import com.fm.shop.notification.requests.SmsRequest;
 import com.fm.shop.notification.responses.SmsResponse;
 
@@ -18,19 +19,22 @@ public class SmsService {
     public static final String URL = "https://portal.bulkgate.com/api/1.0/simple/transactional";
     public static final String MOCK_URL = "https://httpbin.org/post";
 
+
+    public String filePath = "D:\\dev\\training\\online-shop\\shop-modules\\sms-sender\\src\\main\\resources\\credentialsData.yml";
+
     private final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
             .connectTimeout(Duration.ofSeconds(10))
             .build();
 
-    //TODO: store in YML, read from YML and use in send method
-    private final String appId = "21844";
-    private final String appToken = "EGqd40WStovFNcgAREqIbNjTz4GlEklvUGDjues3zXFj0Zj0ct";
-
+    //DONE: store in YML, read from YML and use in send method, use snake yaml
 
     public SmsResponse sendSms(String phoneNumber, String message) {
+        //read credentials from file
+        CredentialsService credentialsService = new CredentialsService();
+        Credentials credentials = credentialsService.createObject(filePath);
 
-        SmsRequest smsRequest = new SmsRequest(appId, appToken, phoneNumber, message);
+        SmsRequest smsRequest = new SmsRequest(credentials.getAppId(), credentials.getAppToken(), phoneNumber, message);
 
         // convert request into json use Jackson Object Mapper
         ObjectMapper mapper = new ObjectMapper();
@@ -48,23 +52,23 @@ public class SmsService {
         // build the request
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(json))
-                .uri(URI.create(MOCK_URL))
+                .uri(URI.create(URL))
                 .header("Content-Type", "application/json")
                 .header("Cache-Control", "no-cache")
                 .build();
 
         // send request and get a response
-        HttpResponse<String> response = null;
+        HttpResponse<String> httpResponse;
         try {
-            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response); // check send and status code
+            httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(httpResponse); // check send and status code
 
             // status codes from documentation, verify if response is successful
-            if (response.statusCode() == 200) {
-                System.out.println(response.body());
-                return mapper.readValue(response.body(), SmsResponse.class);
+            if (httpResponse.statusCode() == 200) {
+                System.out.println(httpResponse.body()); //check httpResponse body
+                return mapper.readValue(httpResponse.body(), SmsResponse.class);
             } else {
-                System.out.println(response.body());
+                System.out.println(httpResponse.body());
                 return null;
             }
 
