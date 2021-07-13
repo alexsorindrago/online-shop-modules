@@ -11,7 +11,7 @@ class CredentialsServiceTest {
 
     @Test
     void givenYmlFile_whenBuildObject_thenObjectIsBuilt() {
-        //TODO: build test for yml loading
+        //DONE: build test for yml loading
 
         //given yml path and object
         Credentials credentials;
