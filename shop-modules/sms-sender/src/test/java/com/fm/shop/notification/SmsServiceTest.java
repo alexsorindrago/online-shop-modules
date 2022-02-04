@@ -14,7 +14,8 @@ class SmsServiceTest {
         SmsService smsService = new SmsService();
         SmsResponse response;
 
-        String number = "40723698005";
+        //enter phone number here eg 40723123456
+        String number = "";
         String text = "works? sent from Java by Alex";
 
         String expectedStatus = "accepted";

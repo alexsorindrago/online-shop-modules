@@ -8,6 +8,7 @@ public class SmsSenderApplication {
         System.out.println("hello sms sender");
 
         SmsService smsService = new SmsService();
-        smsService.sendSms("40723698005", "testing 1.2.3.");
+        //enter phone number here eg 40723123456
+        smsService.sendSms(" ", "testing 1.2.3.");
     }
 }
